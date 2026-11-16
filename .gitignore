@@ -1,0 +1,49 @@
+# Environment & Secrets (CRITICAL: DO NOT COMMIT)
+.env
+.env.*
+!.env.example
+
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Data, uploaded files & SQLite databases
+data/brain.db*
+data/*.db
+data/files/*
+!data/files/.gitkeep
+data/inbox/*
+!data/inbox/.gitkeep
+*.sqlite
+*.sqlite3
+*.db
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Editor files & IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Logs
+*.log

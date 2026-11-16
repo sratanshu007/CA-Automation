@@ -1,0 +1,7 @@
+flask>=3.0
+pypdf>=4.0
+python-docx>=1.1
+openpyxl>=3.1
+# Optional (scanned PDF / photo ke liye OCR): pip install pytesseract pdf2image pillow
+# aur Tesseract install karein (Hindi ke liye hin language pack)
+# Sirf demo ke liye (make_samples.py): pip install reportlab

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Document Brain</title>
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--tx:#18202e;--mut:#6b7686;--br:#e4e8ef;--ac:#4f46e5;--ac2:#eef0ff;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--hl:#fde68a;--sh:0 1px 2px rgba(16,24,40,.05),0 4px 14px rgba(16,24,40,.04)}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1017;--card:#161b24;--tx:#e8ebf1;--mut:#8b95a5;--br:#252c38;--ac:#818cf8;--ac2:#1e2140;--hl:#5f5110;--sh:none}}
+*{box-sizing:border-box}body{margin:0;font:14.5px/1.55 system-ui,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);display:flex;min-height:100vh}
+aside{width:236px;background:var(--card);border-right:1px solid var(--br);padding:20px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+.brand{font-weight:700;font-size:18px;padding:4px 10px 18px;display:flex;gap:9px;align-items:center}
+.logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#6366f1,#a855f7);display:grid;place-items:center;color:#fff;font-size:17px}
+nav button{all:unset;display:flex;gap:10px;align-items:center;width:100%;padding:9px 12px;border-radius:9px;cursor:pointer;color:var(--mut);font-weight:500}
+nav button:hover{background:var(--bg)}nav button.on{background:var(--ac2);color:var(--ac)}
+.side-foot{margin-top:auto;font-size:12px;color:var(--mut);padding:10px}
+.pill{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:99px;background:var(--bg);color:var(--mut);border:1px solid var(--br)}
+.pill.ai{color:var(--ok);border-color:var(--ok)}
+main{flex:1;min-width:0;padding:26px 32px 60px;max-width:1280px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+h1{font-size:22px;margin:0}.sub{color:var(--mut);font-size:13.5px}
+.card{background:var(--card);border:1px solid var(--br);border-radius:14px;padding:18px;box-shadow:var(--sh)}
+h3{margin:0 0 12px;font-size:14px}
+.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:1.1fr 1fr}
+@media(max-width:1000px){.g4{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}}
+@media(max-width:760px){aside{display:none}main{padding:18px 14px}}
+.stat .l{color:var(--mut);font-size:12.5px;display:flex;justify-content:space-between}
+.stat .v{font-size:30px;font-weight:700;margin-top:4px;letter-spacing:-.02em}
+.stat.bad .v{color:var(--bad)}.stat.warn .v{color:var(--warn)}
+.bar{display:grid;grid-template-columns:112px 1fr 28px;gap:10px;align-items:center;margin:9px 0;font-size:13px;cursor:pointer}
+.bar i{display:block;height:9px;border-radius:9px;background:linear-gradient(90deg,#6366f1,#a855f7)}
+.track{background:var(--bg);border-radius:9px;height:9px}
+.dl{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--br)}.dl:last-child{border:0}
+.days{min-width:62px;text-align:center;border-radius:10px;padding:6px 4px;font-weight:700;font-size:13px;line-height:1.2;height:fit-content}
+.days small{display:block;font-weight:500;font-size:10.5px}
+.d-bad{background:#fee2e2;color:#b91c1c}.d-warn{background:#fef3c7;color:#b45309}.d-ok{background:#dcfce7;color:#15803d}
+@media(prefers-color-scheme:dark){.d-bad{background:#3b1414}.d-warn{background:#3b2a0c}.d-ok{background:#0f2f1b}}
+.dl a,.row a{color:var(--tx);font-weight:600;text-decoration:none}.dl a:hover,.row a:hover{color:var(--ac)}
+.ctx{color:var(--mut);font-size:12.5px;margin-top:2px}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;color:var(--mut);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--br)}
+td{padding:10px;border-bottom:1px solid var(--br);font-size:13.5px}tr:last-child td{border:0}
+.tag{font-size:11.5px;padding:2px 9px;border-radius:99px;background:var(--ac2);color:var(--ac);font-weight:600;white-space:nowrap}
+button.b{font:inherit;border:1px solid var(--br);background:var(--card);color:var(--tx);padding:8px 14px;border-radius:9px;cursor:pointer}
+button.b:hover{border-color:var(--ac)}button.p{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
+button.x{border:0;background:none;color:var(--mut);cursor:pointer;font-size:15px}button.x:hover{color:var(--bad)}
+.drop{border:2px dashed var(--br);border-radius:12px;padding:22px;text-align:center;color:var(--mut);cursor:pointer;transition:.15s}
+.drop.over,.drop:hover{border-color:var(--ac);color:var(--ac);background:var(--ac2)}
+.askbox{display:flex;gap:10px}.askbox input,.filter{flex:1;font:inherit;padding:13px 16px;border-radius:12px;border:1px solid var(--br);background:var(--card);color:var(--tx);outline:none}
+.askbox input:focus,.filter:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac2)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.chip{padding:5px 13px;border-radius:99px;border:1px solid var(--br);background:var(--card);cursor:pointer;font-size:12.5px;color:var(--mut)}
+.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.ans{border-left:4px solid var(--ac);white-space:pre-wrap;margin:16px 0;background:var(--ac2)}
+.hit{margin-top:12px}.hit .h{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px;font-size:13px}
+.hit .h a{color:var(--ac);font-weight:600;text-decoration:none}
+.num{display:inline-grid;place-items:center;width:22px;height:22px;background:var(--ac);color:#fff;border-radius:7px;font-size:12px;margin-right:7px}
+.txt{white-space:pre-wrap;font-size:14px}mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 1px}
+.mut{color:var(--mut)}.view{display:none}.view.on{display:block}
+.empty{text-align:center;color:var(--mut);padding:26px}
+.eg{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+#toast{position:fixed;right:20px;bottom:20px;background:#111827;color:#fff;padding:11px 16px;border-radius:10px;display:none;max-width:360px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+</style></head><body>
+<aside>
+  <div class="brand"><div class="logo">🧠</div>Document Brain</div>
+  <nav>
+    <button data-v="dash" class="on">📊 Dashboard</button>
+    <button data-v="ask">💬 Poochho</button>
+    <button data-v="docs">📁 Documents</button>
+  </nav>
+  <div class="side-foot"><span class="pill {{ 'ai' if ai else '' }}">AI: {{ ai_label if ai else 'OFF' }}</span>
+  <div style="margin-top:8px">{{ 'Likha hua jawab milega.' if ai else 'Sirf search + source. AI ke liye README dekhein.' }}</div></div>
+</aside>
+<main>
+<!-- DASHBOARD -->
+<section id="dash" class="view on">
+  <div class="top"><div><h1 id="hello">Namaste 👋</h1><div class="sub">Aapke office ke documents ka seedha saar</div></div>
+    <div><button class="b" id="scan">📥 Inbox scan</button> <button class="b p" onclick="$('#file').click()">＋ Upload</button></div></div>
+  <div class="grid g4">
+    <div class="card stat"><div class="l">Documents <span>📄</span></div><div class="v" id="s-docs">–</div></div>
+    <div class="card stat"><div class="l">Pages indexed <span>📚</span></div><div class="v" id="s-pages">–</div></div>
+    <div class="card stat warn"><div class="l">Agle 30 din ki deadlines <span>⏰</span></div><div class="v" id="s-soon">–</div></div>
+    <div class="card stat bad"><div class="l">Nikal chuki deadlines <span>⚠️</span></div><div class="v" id="s-over">–</div></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>⏰ Deadlines &amp; Renewals <span class="mut" style="font-weight:400">(documents se apne aap nikali)</span></h3><div id="dls"></div></div>
+    <div style="display:grid;gap:16px;align-content:start">
+      <div class="card"><h3>Category ke hisaab se</h3><div id="cats"></div></div>
+      <div class="card"><h3>Naye documents jodein</h3>
+        <div class="drop" id="drop">PDF · Word · Excel · TXT drag karein<br><span style="font-size:12px">ya click karke chunein</span></div>
+        <div class="sub" id="status" style="margin-top:8px"></div></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Haal hi mein jude</h3><div id="recent"></div></div>
+</section>
+<!-- ASK -->
+<section id="ask" class="view">
+  <div class="top"><div><h1>Poochho</h1><div class="sub">Hindi, Hinglish ya English, jaise aap bolte ho</div></div></div>
+  <div class="askbox"><input id="q" placeholder="Jaise: Sharma Leather ka payment term kya hai?"><button class="b p" id="go">Poochho</button></div>
+  <div class="eg" id="eg"></div>
+  <div class="chips" id="chips"></div>
+  <div id="out"></div>
+</section>
+<!-- DOCS -->
+<section id="docs" class="view">
+  <div class="top"><div><h1>Documents</h1><div class="sub" id="dcount"></div></div>
+    <input class="filter" id="dfilter" placeholder="Naam se dhoondho..." style="max-width:320px;flex:none"></div>
+  <div class="card" style="padding:6px 10px"><table><thead><tr><th>Naam</th><th>Category</th><th>Pages</th><th>Jora gaya</th><th></th></tr></thead><tbody id="dtable"></tbody></table></div>
+</section>
+</main>
+<input type="file" id="file" multiple hidden accept=".pdf,.docx,.txt,.md,.csv,.xlsx">
+<div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rx=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const fmt=t=>new Date(t*1000).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+const fmtD=iso=>new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+let DOCS=[],ST=null,CAT='';
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',4200)}
+function show(v){$$('.view').forEach(e=>e.classList.toggle('on',e.id===v));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));if(v==='ask')$('#q').focus()}
+$$('nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
+const h=new Date().getHours();$('#hello').textContent=(h<12?'Suprabhat':h<17?'Namaste':'Shubh sandhya')+' 👋';
+
+async function refresh(){
+  [ST,DOCS]=await Promise.all([fetch('/api/stats').then(r=>r.json()),fetch('/api/docs').then(r=>r.json())]);
+  $('#s-docs').textContent=ST.docs;$('#s-pages').textContent=ST.pages.toLocaleString('en-IN');
+  $('#s-soon').textContent=ST.soon;$('#s-over').textContent=ST.overdue;
+  const up=ST.deadlines;
+  $('#dls').innerHTML=up.length?up.slice(0,7).map(d=>{
+    const c=d.days_left<0?'d-bad':d.days_left<=30?'d-warn':'d-ok';
+    const t=d.days_left<0?`${-d.days_left}<small>din pehle</small>`:d.days_left===0?'Aaj':`${d.days_left}<small>din baaki</small>`;
+    return `<div class="dl"><div class="days ${c}">${t}</div><div><a href="/file/${d.doc_id}${d.name.toLowerCase().endsWith('.pdf')?'#page='+d.page:''}" target="_blank">${esc(d.name)}</a>
+    <span class="tag" style="margin-left:6px">${fmtD(d.due)}</span><div class="ctx">${esc(d.context)}</div></div></div>`}).join('')
+    :'<div class="empty">Abhi koi deadline nahi mili.<br>Jin documents mein "valid until / due / expiry" likha hoga unki date yahan aayegi.</div>';
+  const mx=Math.max(1,...ST.categories.map(c=>c.n));
+  $('#cats').innerHTML=ST.categories.map(c=>`<div class="bar" onclick="askCat('${esc(c.cat)}')" title="Is category mein poochho"><span>${esc(c.cat)}</span><div class="track"><i style="width:${c.n/mx*100}%"></i></div><b>${c.n}</b></div>`).join('')||'<div class="empty">Khaali</div>';
+  $('#recent').innerHTML=ST.recent.length?`<table><tbody>${ST.recent.map(d=>row(d)).join('')}</tbody></table>`:'<div class="empty">Koi document nahi. Upar se upload karein.</div>';
+  renderChips();renderTable();
+}
+const row=d=>`<tr class="row"><td><a href="/file/${d.id}" target="_blank">${esc(d.name)}</a></td><td><span class="tag">${esc(d.category||'Other')}</span></td><td class="mut">${d.pages} pg</td><td class="mut">${fmt(d.added)}</td></tr>`;
+function renderTable(){
+  const f=$('#dfilter').value.toLowerCase(),l=DOCS.filter(d=>d.name.toLowerCase().includes(f));
+  $('#dcount').textContent=`${DOCS.length} documents indexed`;
+  $('#dtable').innerHTML=l.map(d=>row(d).replace('</tr>',`<td style="text-align:right"><button class="x" onclick="del(${d.id})" title="Hatao">🗑</button></td></tr>`)).join('')||'<tr><td colspan=5 class="empty">Kuch nahi mila</td></tr>'}
+$('#dfilter').oninput=renderTable;
+async function del(id){if(confirm('Is document ko hata dein?')){await fetch('/api/docs/'+id,{method:'DELETE'});toast('Hata diya');refresh()}}
+
+function report(res){
+  const c={added:0,duplicate:0,error:0,empty:0};res.forEach(r=>c[r.status]++);
+  let m=`✅ ${c.added} naye jude`;if(c.duplicate)m+=` · ${c.duplicate} pehle se the`;
+  const bad=res.filter(r=>r.status==='error'||r.status==='empty');
+  if(bad.length)m+=` · ⚠️ ${bad.length} fail (${bad.map(b=>b.name).join(', ')})`;
+  $('#status').textContent=m;toast(m);refresh()}
+async function upload(files){
+  let all=[];for(let i=0;i<files.length;i+=5){
+    $('#status').textContent=`Upload ${Math.min(i+5,files.length)}/${files.length}...`;
+    const fd=new FormData();[...files].slice(i,i+5).forEach(f=>fd.append('files',f));
+    all=all.concat(await fetch('/api/upload',{method:'POST',body:fd}).then(r=>r.json()))}
+  report(all)}
+const drop=$('#drop');drop.onclick=()=>$('#file').click();$('#file').onchange=e=>upload(e.target.files);
+drop.ondragover=e=>{e.preventDefault();drop.classList.add('over')};drop.ondragleave=()=>drop.classList.remove('over');
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');upload(e.dataTransfer.files)};
+$('#scan').onclick=async()=>{toast('Scan ho raha hai...');report(await fetch('/api/scan-inbox',{method:'POST'}).then(r=>r.json()))};
+
+function renderChips(){
+  const cs=['',...ST.categories.map(c=>c.cat)];
+  $('#chips').innerHTML=cs.map(c=>`<span class="chip ${c===CAT?'on':''}" data-c="${esc(c)}">${c||'Sab documents'}</span>`).join('');
+  $$('.chip').forEach(e=>e.onclick=()=>{CAT=e.dataset.c;renderChips()});
+  $('#eg').innerHTML=['Payment terms kya hain?','Security deposit kitna hai?','GST notice tax difference','बैनामा विवाद'].map(t=>`<span class="chip" onclick="$('#q').value='${t}';ask()">${t}</span>`).join('')}
+function askCat(c){CAT=c;renderChips();show('ask')}
+async function ask(){
+  const q=$('#q').value.trim();if(!q)return;
+  $('#go').disabled=true;$('#out').innerHTML='<p class="mut">Dhoondh raha hoon…</p>';
+  const r=await fetch('/api/ask',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({question:q,category:CAT})}).then(r=>r.json());
+  $('#go').disabled=false;let o='';
+  if(r.answer)o+=`<div class="card ans">${esc(r.answer)}</div>`;
+  if(!r.hits.length)o+='<div class="card empty">Kuch nahi mila. Doosre shabd try karein ya "Sab documents" chunein.</div>';
+  else o+=`<h3 style="margin-top:18px" class="mut">SOURCES (${r.hits.length})</h3>`;
+  const re=r.terms.length?new RegExp('('+r.terms.map(rx).join('|')+')\\w*','gi'):null;
+  r.hits.forEach((x,i)=>{const pdf=x.name.toLowerCase().endsWith('.pdf'),t=esc(x.text);
+    o+=`<div class="card hit"><div class="h"><span><span class="num">${i+1}</span><a href="/file/${x.doc_id}${pdf?'#page='+x.page:''}" target="_blank">${esc(x.name)}</a> · ${pdf?'page':'section'} ${x.page}</span><span class="mut">match ${x.score}</span></div><div class="txt">${re?t.replace(re,'<mark>$&</mark>'):t}</div></div>`});
+  $('#out').innerHTML=o}
+$('#go').onclick=ask;$('#q').addEventListener('keydown',e=>e.key==='Enter'&&ask());
+refresh();
+</script></body></html>
